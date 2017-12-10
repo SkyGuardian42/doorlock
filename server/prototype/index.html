@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>""client""</title>
+</head>
+<body>
+	<div class="on button">open</div>
+	<div class="off button">close</div>
+	<div class="open button">open</div>
+
+	<script src="/socket.io/socket.io.js"></script>
+	<script>
+		const socket = io.connect('http://localhost');
+		socket.on('connect', () => {
+			socket.emit('login');
+		});
+		
+		// buttons
+		let onBtn = document.querySelector('.on');
+		let offBtn = document.querySelector('.off');
+
+		socket.on('accepted', data => {
+			if(data.open)
+				onBtn.classList.add('hide');
+			else
+				offBtn.classList.add('hide');
+		})
+
+		offBtn.addEventListener('click', event => {
+			close();
+		});
+		
+		onBtn.addEventListener('click', event => {
+			open();
+		});
+
+		function open() {
+			document.querySelector('.on').classList.add('hide');
+			document.querySelector('.off').classList.remove('hide');
+			socket.emit('open');
+		}	
+		function close() {
+			document.querySelector('.on').classList.remove('hide');
+			document.querySelector('.off').classList.add('hide');
+			socket.emit('close');
+		}	
+	</script>
+
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:600">
+	<style>
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			display: flex;
+			flex-direction: column;
+			margin: 0;
+			height: 100vh;
+
+			background: #000;
+
+			font-family: 'Poppins', sans-serif;
+			font-weight: 600;
+		}
+
+		.button {
+			border: 1px solid black;
+			border-bottom: none;
+			background: #fff;
+			flex-grow: 1;
+			padding: 50px;
+			font-size: 25px;
+
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+			cursor: pointer;
+		}
+		.button:hover {
+			background: #eaeaea;
+			/* color: #fff; */
+		}		
+		.button:active {
+			color: #fff;
+			background: #000;
+		}
+		.button:last-child {
+			border-bottom: 1px solid black;
+		}
+	
+		.hide {
+			display: none;
+		}
+	</style>
+
+	<script src=""></script>
+</body>
+</html>
