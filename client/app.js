@@ -1,17 +1,17 @@
 // PROTOTYPE
-const io		 = require('socket.io-client'),
-			socket = io('https://doorlock.glitch.me/');
+const io			= require('socket.io-client'),
+			socket	= io('https://doorlock.glitch.me/')
 
-const gpio = require('rpi-gpio');
-gpio.setup(7, gpio.DIR_OUT, write);
+if(process.env.NODE_ENV === 'production') {
+	const gpio = require('rpi-gpio')
+	gpio.setup(7, gpio.DIR_OUT, write)
+}
 
 let status = {
 	opened: false,
-	apiKey: 'VKvDe4+rZ7!bUH5.',
-	open() {
-
-	}
+	apiKey: 'VKvDe4+rZ7!bUH5.'
 };			
+
 let doorOpen = false;
 
 socket.on('connect', () => {
@@ -28,14 +28,17 @@ socket.on('registered', res => {
 
 socket.on('open', () => {
 	log('door opening');
-	gpio.write(7, 1, write);
+
+	if(process.env.NODE_ENV === 'production') 
+		gpio.write(7, 1, write);
 	
 	setTimeout(() => {
 		log('door closed');
-
-		gpio.write(7, 0, write);
+		if(process.env.NODE_ENV === 'production') 
+			gpio.write(7, 0, write);
 	}, 2000)
 
+	
 })
 
 function log(text) {
