@@ -1,9 +1,9 @@
 // PROTOTYPE
 const io			= require('socket.io-client'),
 			socket	= io('https://doorlock.glitch.me/')
-
+const gpio = require('rpi-gpio')
 if(process.env.NODE_ENV === 'production') {
-	const gpio = require('rpi-gpio')
+
 	gpio.setup(7, gpio.DIR_OUT, write)
 }
 
@@ -26,8 +26,8 @@ socket.on('registered', res => {
 	log('doorlock registered');
 })
 
-socket.on('open', () => {
-	log('door opening');
+socket.on('open', (name) => {
+	log('door opened by ' + name);
 
 	if(process.env.NODE_ENV === 'production') 
 		gpio.write(7, 1, write);
