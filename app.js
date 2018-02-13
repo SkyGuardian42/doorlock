@@ -1,11 +1,10 @@
 // PROTOTYPE
 const io			= require('socket.io-client'),
-			socket	= io('https://doorlock.glitch.me/')
-const gpio = require('rpi-gpio')
-if(process.env.NODE_ENV === 'production') {
+			socket	= io('https://doorlock.glitch.me/'),
+			gpio = require('rpi-gpio');
 
-	gpio.setup(7, gpio.DIR_OUT, write)
-}
+if(process.env.NODE_ENV === 'production')
+	gpio.setup(7, gpio.DIR_OUT, write);
 
 let status = {
 	opened: false,
