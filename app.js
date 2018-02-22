@@ -1,14 +1,16 @@
 // PROTOTYPE
 const io			= require('socket.io-client'),
-			socket	= io('https://doorlock.glitch.me/'),
-			gpio = require('rpi-gpio');
+			// gpio = require('rpi-gpio'),
+			socket	= io('https://doorlock.glitch.me/');
+
+// load environment variables
+require('dotenv').config();
 
 if(process.env.NODE_ENV === 'production')
 	gpio.setup(7, gpio.DIR_OUT, write);
 
 let status = {
-	opened: false,
-	apiKey: 'VKvDe4+rZ7!bUH5.'
+	opened: false
 };			
 
 let doorOpen = false;
@@ -17,7 +19,7 @@ socket.on('connect', () => {
 	log('connected to server');
 
 	socket.emit('register-lock', {
-		apiKey: status.apiKey
+		apiKey: process.env.WS_TOKEN
 	})	
 });
 
