@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Türschloss Client
 > Verbindet sich mit dem Haupserver und wartet auf Anweisungen
 Um zu den Client zu installieren, erst dependencies installieren:
