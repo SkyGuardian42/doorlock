@@ -1,6 +1,6 @@
 // PROTOTYPE
 const io			= require('socket.io-client'),
-			// gpio = require('rpi-gpio'),
+			gpio = require('rpi-gpio'),
 			socket	= io('https://doorlock.glitch.me/');
 
 // load environment variables
